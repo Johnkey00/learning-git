@@ -10,7 +10,7 @@
 
 ## Git工作流程
 
-![屏幕截图 2024-08-24 134221](C:\Users\Johnkey\OneDrive - University of Leeds\Pictures\Screenshots\屏幕截图 2024-08-24 134221.png)
+![屏幕截图 2024-08-24 134221](./image/1.png)
 
 ## 配置Git
 
@@ -51,3 +51,58 @@ git add .
 git commit -m "XXX"
 ```
 
+查看当前git的状态
+
+```bash
+git status
+```
+
+查看日志
+
+```bash
+git log [option]
+```
+
+[option]中可选的参数
+
+- `--all`显示所有分支
+- `--pretty==oneline`将提交信息显示为一行
+- `--abbrev-commit`使得输出的commitID更简短
+- `--graph`以图的形式显示
+
+这条指令我们能够看到输出如下
+
+```bash
+commit 13990657169b1f85dcc85717755867139ba2ddad (HEAD -> master)
+Author: Johnkey00 <1176023870@qq.com>
+Date:   Sun Aug 25 09:57:12 2024 +0800
+
+    20240825-first-commit
+```
+
+版本回退
+
+```bash
+git reset --hard commitId
+```
+
+有一些文件我们不想让Git来管理，这个时候如果输入`git status`指令会显示这些文件untracked，比如我有一系列`.a`格式的文件，我不想让Git管理这些文件，这个时候可以考虑加入一个新的文件名为`.gitignore`，输入指令
+
+```bash
+touch .gitignore
+```
+
+然后编辑这个文件，将不想被管理的文件名写入该文件即可，我创建了`ignore01.a`和`ignore02.a`这两个文件，接着我在`.gitignore`中输入
+
+```bash
+ignore01.a
+ignore02.a
+```
+
+或者输入
+
+```bash
+*.a
+```
+
+再次输入`git status`就看不到untracked的`ignore01.a`和`ignore02.a`了
