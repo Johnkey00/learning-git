@@ -149,3 +149,47 @@ git branch -D XXX
 ## 解决冲突
 
 在合并时发现如果两边同时修改了同一个地方，就会发生冲突，需要开发者来解决
+
+首先在`master`分支下新建一个文件，命名为`conflict.txt`
+
+```bash
+touch conflict.txt
+```
+
+打开文件并输入`branch=master`
+
+然后创建一个新的分支`branch01`
+
+```bash
+git checkout -b branch01
+```
+
+打开`conflict.txt`并将内容修改为`branch=branch01`
+
+此时回到master分支并输入
+
+```bash
+git merge branch01
+```
+
+此时git终端将会出现如下的报错
+
+```bash
+Auto-merging conflict.txt
+CONFLICT (add/add): Merge conflict in conflict.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+这是因为我们同时修改了两个分支下的同一部分内容，git在合并的时候不知道应该采用哪一条分支的内容作为合并后的内容，因此报错，此时打开`conflict.txt`，我们将会看到
+
+```tex
+<<<<<<< HEAD
+branch=master
+=======
+branch=branch01
+>>>>>>> branch01
+```
+
+这里的意思是在这一行中，当前分支的内容如`=======`上所示，而产生冲突的分支的内容如`=======`下所示，此时我们需要决定合并后我们需要的取值，也就是`branch=?`，在这里branch不一定要是`master`或者`branch01`了，我们可以修改为任意值，我将其修改为`conflict solved`
+
+再次进行`add`和`commit`操作即可
