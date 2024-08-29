@@ -106,3 +106,46 @@ ignore02.a
 ```
 
 再次输入`git status`就看不到untracked的`ignore01.a`和`ignore02.a`了
+
+## 分支
+
+查看分支
+
+```bash
+git branch
+```
+
+创建分支
+
+```bash
+git branch XXX
+```
+
+切换分支
+
+```bash
+git checkout XXX
+```
+
+创建并切换分支
+
+```bash
+git checkout -b XXX
+```
+
+合并分支
+
+```bash
+git merge XXX
+```
+
+删除/强制删除分支
+
+```bash
+git branch -d XXX
+git branch -D XXX
+```
+
+## 解决冲突
+
+在合并时发现如果两边同时修改了同一个地方，就会发生冲突，需要开发者来解决
