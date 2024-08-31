@@ -80,6 +80,18 @@ Date:   Sun Aug 25 09:57:12 2024 +0800
     20240825-first-commit
 ```
 
+我们想使用`git log`的所有参数，但是不想每次都输入这么多内容，我们可以使用别名
+
+在当前用户这个文件夹下（一般是C:/User/XXX）创建一个`.bashrc`文件，并在其中输入
+
+```bash
+alias git-log='git log --pretty=oneline --all --graph --abbrev-commit'
+```
+
+然后在git命令行输入`source ~/.bashrc`
+
+这样操作之后，我们以后只需要输入`git-log`就可以看到所有参数的效果了
+
 版本回退
 
 ```bash
@@ -193,3 +205,59 @@ branch=branch01
 这里的意思是在这一行中，当前分支的内容如`=======`上所示，而产生冲突的分支的内容如`=======`下所示，此时我们需要决定合并后我们需要的取值，也就是`branch=?`，在这里branch不一定要是`master`或者`branch01`了，我们可以修改为任意值，我将其修改为`conflict solved`
 
 再次进行`add`和`commit`操作即可
+
+## 开发中分支使用原则与流程
+
+- master分支：也叫release分支，一般是上线使用的稳定分支
+- develop分支：开发分支，会不断有新的功能合并进来，需要部署上线的时候再将这个分支合并到master分支上
+- feature分支：一般命名为feature/XXX，是各开发人员实现各个功能的分支，该功能实现之后会合并到develop分支上，合并完成后该分支可被删除
+- hotfix分支：一般命名为hotfix/XXX，是产品上线后用户反馈有bug后，基于已经上线的master分支新建的一个用于修复该特定bug的分支，bug修复之后，该分支不仅需要合并到master上，还需要同时合并到develop分支上
+
+## Git远程仓库
+
+配置公私钥用于代码上传和拉取时的身份认证
+
+生成公私钥
+
+```bash
+ssh-keygen -t rsa
+```
+
+获取公钥
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+之后打开`GitHub`，进入`Settings->SSH and GPG keys->New SSH key`，将上面获取到的公钥复制到输入框中
+
+然后创建一个新的仓库，并复制创建后的SSH地址
+
+接着我们需要在本地关联这个远程仓库，输入指令
+
+```bash
+git remote add origin XXX
+```
+
+后面的XXX替换成刚刚复制的SSH地址，这里的origin是远程仓库的名称
+
+此时通过`git remote`命令可以查看当前添加的远程仓库名称
+
+接着将本地的代码推到远程仓库中，通过命令
+
+```bash
+git push origin master:master
+```
+
+这是比较完整的写法，即在origin仓库中从本地master分支推到远端master分支，如果两端分支名相同，也可以简写为
+
+```bash
+git push origin master
+```
+
+`git push`还提供了一个参数叫做`--set-upstream`，这个参数的意思是我们可以指定将本地的分支绑定到远程的某个分支上，这样我们在进行`git push`指令的时候，就不需要再额外添加其它参数了，用法：
+
+```bash
+git push --set-upstream origin master:master
+```
+
